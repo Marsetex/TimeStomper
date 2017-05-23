@@ -20,7 +20,7 @@ public class TimeCreateControllerTest {
 
 	@Test
 	public void test2() throws Exception {
-		assertThat(true, is(true));
+		assertThat(true, is(false));
 	}
 
 }
