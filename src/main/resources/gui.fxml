@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.grue038.timestomper.classes.TimeCreateController">
+   <children>
+      <MenuBar prefHeight="21.0" prefWidth="800.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Pane layoutY="24.0" prefHeight="476.0" prefWidth="800.0">
+         <children>
+            <TextField fx:id="marcel" layoutX="17.0" layoutY="48.0" />
+            <Button layoutX="231.0" layoutY="48.0" mnemonicParsing="false" onAction="#zeiterfassen" text="Button" />
+            <Label layoutX="17.0" layoutY="21.0" text="Zeit erfassen" />
+            <Button layoutX="674.0" layoutY="155.0" mnemonicParsing="false" text="Button" />
+            <Label layoutX="17.0" layoutY="87.0" text="Zeit entfernen" />
+            <ListView layoutX="17.0" layoutY="111.0" prefHeight="88.0" prefWidth="627.0" />
+            <ProgressBar layoutX="42.0" layoutY="344.0" prefHeight="12.0" prefWidth="490.0" progress="0.63" />
+            <Label layoutX="192.0" layoutY="388.0" text="Zeit  anwesend" />
+            <Label layoutX="504.0" layoutY="391.0" text="Zeit übrig" />
+            <Separator layoutX="17.0" layoutY="77.0" prefHeight="12.0" prefWidth="758.0" />
+         </children>
+      </Pane>
+   </children>
+</Pane>
