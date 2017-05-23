@@ -12,8 +12,8 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.7.9</version>
 				<configuration>
-					<destFile>${basedir}/target/reports/jacoco/test/jacocoTestReport.xml</destFile>
-					<dataFile>${basedir}/target/reports/jacoco/test/jacocoTestReport.xml</dataFile>
+					<destFile>${basedir}/build/reports/jacoco/test/jacocoTestReport.xml</destFile>
+					<dataFile>${basedir}/build/reports/jacoco/test/jacocoTestReport.xml</dataFile>
 				</configuration>
 				<executions>
 					<execution>
