@@ -8,30 +8,6 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.9</version>
-				<configuration>
-					<destFile>${basedir}/build/reports/jacoco/test/jacocoTestReport.xml</destFile>
-					<dataFile>${basedir}/build/reports/jacoco/test/jacocoTestReport.xml</dataFile>
-				</configuration>
-				<executions>
-					<execution>
-						<id>jacoco-initialize</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>jacoco-site</id>
-						<phase>package</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
@@ -47,26 +23,6 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
-		</dependency>
-		<dependency>
-			<groupId>com.codacy</groupId>
-			<artifactId>coverage-parser_2.11</artifactId>
-			<version>2.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.codacy</groupId>
-			<artifactId>codacy-coverage-reporter</artifactId>
-			<version>2.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.codacy</groupId>
-			<artifactId>codacy-api-scala_2.11</artifactId>
-			<version>3.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.codacy</groupId>
-			<artifactId>codacy-plugins-api_2.11</artifactId>
-			<version>1.0.10</version>
 		</dependency>
 	</dependencies>
 </project>
