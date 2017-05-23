@@ -4,6 +4,11 @@ import javax.swing.JOptionPane;
 
 import javafx.fxml.FXML;
 
+/**
+ * 
+ * @author Marsetex
+ *
+ */
 public class TimeCreateController {
 
 	@FXML
