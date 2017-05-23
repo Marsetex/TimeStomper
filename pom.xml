@@ -53,5 +53,20 @@
 			<artifactId>coverage-parser_2.11</artifactId>
 			<version>2.0.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.codacy</groupId>
+			<artifactId>codacy-coverage-reporter</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.codacy</groupId>
+			<artifactId>codacy-api-scala_2.11</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.codacy</groupId>
+			<artifactId>codacy-plugins-api_2.11</artifactId>
+			<version>1.0.10</version>
+		</dependency>
 	</dependencies>
 </project>
