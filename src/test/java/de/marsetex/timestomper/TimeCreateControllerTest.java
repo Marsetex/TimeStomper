@@ -1,4 +1,4 @@
-package de.grue038.timestomper.classes;
+package de.marsetex.timestomper;
 
 import static org.hamcrest.CoreMatchers.is;
 
