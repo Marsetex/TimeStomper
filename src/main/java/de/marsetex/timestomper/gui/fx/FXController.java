@@ -5,15 +5,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import de.marsetex.timestomper.bo.WorkingHoursTableEntry;
+import de.marsetex.timestomper.cache.EntityCache;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 /**
@@ -26,27 +27,42 @@ public class FXController {
 	private ObservableList<Data> pieChartData;
 
 	@FXML
-	private Button saveTimeButton;
+	private TableView<WorkingHoursTableEntry> timeTable;
 
 	@FXML
-	private ListView<String> d;
+	private TableColumn<WorkingHoursTableEntry, String> dayColumn;
+
+	@FXML
+	private TableColumn<WorkingHoursTableEntry, String> dateColumn;
+
+	@FXML
+	private TableColumn<WorkingHoursTableEntry, String> timeColumn;
+
+	@FXML
+	private DatePicker datePicker;
+
+	@FXML
+	private TextField workingHoursTextField;
+
+	// @FXML
+	// private Button saveTimeButton;
+
+	@FXML
+	private TextField arrivalTimestampTextField;
+
+	// @FXML
+	// private Button calculateButton;
+
+	@FXML
+	private TextField remaingTimeTextField;
+
+	@FXML
+	private TextField endOfWorkDayTextField;
 
 	@FXML
 	private PieChart charts;
 
-	@FXML
-	private TextField restarbeitszeit;
-
-	@FXML
-	private TextField ankunft;
-
-	@FXML
-	private TextField verbeleibend;
-
-	@FXML
-	private TextField feierabend;
-
-	private ObservableList<String> items;
+	private final EntityCache cache = new EntityCache();
 
 	@FXML
 	public void initialize() {
@@ -54,13 +70,9 @@ public class FXController {
 		charts.setData(pieChartData);
 		charts.setLegendVisible(true);
 
-		items = FXCollections.observableArrayList("Single", "Double", "Suite", "Family App");
-		d.setItems(items);
-		ContextMenu contextMenu = new ContextMenu();
-		MenuItem add = new MenuItem("Add");
-		MenuItem delete = new MenuItem("Delete");
-		contextMenu.getItems().addAll(add, delete);
-		d.setContextMenu(contextMenu);
+		dayColumn.setCellValueFactory(cellData -> cellData.getValue().getDay());
+		dateColumn.setCellValueFactory(cellData -> cellData.getValue().getDate());
+		timeColumn.setCellValueFactory(cellData -> cellData.getValue().getWorkingHours());
 
 		// ListView<String> listView = new ListView<>();
 		// listView.getItems().addAll("One", "Two", "Three");
@@ -100,23 +112,27 @@ public class FXController {
 	}
 
 	@FXML
-	private void buttonPressed() {
+	private void addPressed() {
 		updatePieChart();
-		System.out.println("hi");
-		double rest = Double.parseDouble(restarbeitszeit.getText());
+		cache.add(datePicker.getValue(), workingHoursTextField.getText());
+		timeTable.setItems(cache.getIteams());
+	}
+
+	@FXML
+	private void calculatePressed() {
+		double rest = calculateRemaingWorkingHours();
 		int restGanz = (int) rest;
 		double sss = rest - restGanz;
 		int sadma = (int) (60.0 / 100.0 * (sss * 100));
 
-		verbeleibend.setText(String.valueOf(restGanz) + ":" + String.valueOf(sadma));
+		remaingTimeTextField.setText(String.valueOf(restGanz) + ":" + String.valueOf(sadma));
 
-		String myTime = ankunft.getText();
+		String myTime = arrivalTimestampTextField.getText();
 		SimpleDateFormat df = new SimpleDateFormat("HH:mm");
 		Date d = null;
 		try {
 			d = df.parse(myTime);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Calendar cal = Calendar.getInstance();
@@ -131,7 +147,11 @@ public class FXController {
 		cal.add(Calendar.MINUTE, add);
 		String newTime = df.format(cal.getTime());
 		System.out.println(newTime);
-		feierabend.setText(newTime);
+		endOfWorkDayTextField.setText(newTime);
+	}
+
+	private double calculateRemaingWorkingHours() {
+		return 7.75;
 	}
 
 	private void updatePieChart() {
