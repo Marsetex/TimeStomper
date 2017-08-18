@@ -5,8 +5,8 @@ import java.io.IOException;
 import de.marsetex.timestomper.gui.UIInitializer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -23,7 +23,7 @@ public class FXStageInitializer extends Application implements UIInitializer {
 
 	@Override
 	public void start(Stage stage) throws IOException {
-		Pane root = loadFXML();
+		Parent root = loadFXML();
 		Scene scene = new Scene(root);
 
 		stage.setScene(scene);
@@ -31,8 +31,8 @@ public class FXStageInitializer extends Application implements UIInitializer {
 		stage.show();
 	}
 
-	private Pane loadFXML() throws IOException {
-		return (Pane) FXMLLoader.load(getClass().getResource("/FXMainStage.fxml"));
+	private Parent loadFXML() throws IOException {
+		return (Parent) FXMLLoader.load(getClass().getResource("/FXMainStage.fxml"));
 	}
 
 }
