@@ -6,17 +6,17 @@
 
 TimeStomper is a tool to manage your working hours.
 
-# Downloads
-Available versions: 
-* [TimeStomper-0.1.0.jar](https://drive.google.com/open?id=0B1XL7S9NXzO6clRfeEtfSk1oeGs)
+# Releases
+The following [releases](https://github.com/Marsetex/TimeStomper/releases/) are available for download: 
+* [TimeStomper-0.1.0.jar](https://github.com/Marsetex/TimeStomper/releases/tag/v0.1.0)
 
 # Changlog
 
 0.1.0
-----------
+---
 * Revamped user interface
 
 0.0.1
-----------
+---
 * Initial release
 * Core functionalitys implemented (calculation of remaining working hours, calculation of the end of a work day for a given arrival time)
