@@ -10,7 +10,7 @@ TimeStomper is a tool to manage your working hours.
 The following [releases](https://github.com/Marsetex/TimeStomper/releases/) are available for download: 
 * [TimeStomper-0.1.0.jar](https://github.com/Marsetex/TimeStomper/releases/tag/v0.1.0)
 
-# Changlog
+# Changelog
 
 0.1.0
 ---
