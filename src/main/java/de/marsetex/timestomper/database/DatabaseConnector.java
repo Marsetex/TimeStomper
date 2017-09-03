@@ -3,6 +3,7 @@ package de.marsetex.timestomper.database;
 public class DatabaseConnector {
 
 	public void test() {
+		int x;
 		// Employee emp = new Employee();
 		// emp.setName("Pankaj");
 		// emp.setRole("CEO");
