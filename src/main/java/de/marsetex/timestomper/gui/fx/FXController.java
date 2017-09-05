@@ -1,12 +1,14 @@
 package de.marsetex.timestomper.gui.fx;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.temporal.TemporalField;
+import java.time.temporal.WeekFields;
+import java.util.Locale;
 
+import de.marsetex.timestomper.Calculator;
 import de.marsetex.timestomper.bo.WorkingHoursTableEntry;
 import de.marsetex.timestomper.cache.EntityCache;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,8 +16,10 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.TextFieldTableCell;
 
 /**
  * 
@@ -64,6 +68,8 @@ public class FXController {
 
 	private final EntityCache cache = new EntityCache();
 
+	Calculator calc = new Calculator();
+
 	@FXML
 	public void initialize() {
 		pieChartData = FXCollections.observableArrayList(new Data("Arbeitszeit", 152), new Data("Restzeit", 45));
@@ -72,43 +78,28 @@ public class FXController {
 
 		dayColumn.setCellValueFactory(cellData -> cellData.getValue().getDay());
 		dateColumn.setCellValueFactory(cellData -> cellData.getValue().getDate());
-		timeColumn.setCellValueFactory(cellData -> cellData.getValue().getWorkingHours());
 
-		// ListView<String> listView = new ListView<>();
-		// listView.getItems().addAll("One", "Two", "Three");
-		//
-		// listView.setCellFactory(lv -> {
-		//
-		// ListCell<String> cell = new ListCell<>();
-		//
-		// ContextMenu contextMenu = new ContextMenu();
-		//
-		//
-		// MenuItem editItem = new MenuItem();
-		// editItem.textProperty().bind(Bindings.format("Edit \"%s\"",
-		// cell.itemProperty()));
-		// editItem.setOnAction(event -> {
-		// String item = cell.getItem();
-		// // code to edit item...
-		// });
-		// MenuItem deleteItem = new MenuItem();
-		// deleteItem.textProperty().bind(Bindings.format("Delete \"%s\"",
-		// cell.itemProperty()));
-		// deleteItem.setOnAction(event ->
-		// listView.getItems().remove(cell.getItem()));
-		// contextMenu.getItems().addAll(editItem, deleteItem);
-		//
-		// cell.textProperty().bind(cell.itemProperty());
-		//
-		// cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
-		// if (isNowEmpty) {
-		// cell.setContextMenu(null);
-		// } else {
-		// cell.setContextMenu(contextMenu);
-		// }
-		// });
-		// return cell ;
-		// });
+		timeColumn.setCellValueFactory(cellData -> cellData.getValue().getWorkingHours());
+		timeColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+		timeColumn.setOnEditCommit(event -> handleEdit(event));
+
+		LocalDate now = LocalDate.now();
+		TemporalField fieldISO = WeekFields.of(Locale.GERMANY).dayOfWeek();
+
+		for (int i = 1; i <= 5; i++) {
+			cache.add(now.with(fieldISO, i), "0.00");
+		}
+		timeTable.setItems(cache.getIteams());
+
+		remaingTimeTextField.setText("" + calc.calc2(cache.getIteams()));
+	}
+
+	public void handleEdit(CellEditEvent<WorkingHoursTableEntry, String> event) {
+		WorkingHoursTableEntry ss = event.getRowValue();
+		ss.setWorkingHours(new SimpleStringProperty(event.getNewValue()));
+
+		remaingTimeTextField.setText("" + calc.calc2(event.getTableView().getItems()));
+
 	}
 
 	@FXML
@@ -120,38 +111,11 @@ public class FXController {
 
 	@FXML
 	private void calculatePressed() {
-		double rest = calculateRemaingWorkingHours();
-		int restGanz = (int) rest;
-		double sss = rest - restGanz;
-		int sadma = (int) (60.0 / 100.0 * (sss * 100));
+		Calculator calc = new Calculator();
+		calc.calc();
+		// remaingTimeTextField.setText(String.valueOf(restGanz) + ":" +
+		// String.valueOf(sadma));
 
-		remaingTimeTextField.setText(String.valueOf(restGanz) + ":" + String.valueOf(sadma));
-
-		String myTime = arrivalTimestampTextField.getText();
-		SimpleDateFormat df = new SimpleDateFormat("HH:mm");
-		Date d = null;
-		try {
-			d = df.parse(myTime);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(d);
-
-		int add = restGanz * 60 + sadma;
-
-		if (restGanz > 5) {
-			add = add + 30;
-		}
-
-		cal.add(Calendar.MINUTE, add);
-		String newTime = df.format(cal.getTime());
-		System.out.println(newTime);
-		endOfWorkDayTextField.setText(newTime);
-	}
-
-	private double calculateRemaingWorkingHours() {
-		return 7.75;
 	}
 
 	private void updatePieChart() {

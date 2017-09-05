@@ -4,7 +4,6 @@
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ContextMenu?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -17,7 +16,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-
 
 <GridPane prefHeight="450.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.marsetex.timestomper.gui.fx.FXController">
    <columnConstraints>
@@ -45,25 +43,7 @@
       </MenuBar>
       <VBox prefWidth="300.0" GridPane.rowIndex="1">
          <children>
-            <HBox prefHeight="0.0" prefWidth="510.0">
-               <children>
-                  <DatePicker fx:id="datePicker">
-                     <HBox.margin>
-                        <Insets bottom="10.0" top="20.0" />
-                     </HBox.margin>
-                  </DatePicker>
-                  <TextField fx:id="workingHoursTextField" prefHeight="25.0" prefWidth="190.0">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" top="20.0" />
-                     </HBox.margin>
-                  </TextField>
-                  <Button fx:id="addTimeButton" mnemonicParsing="false" onAction="#addPressed" prefHeight="25.0" prefWidth="86.0" text="Hinzufügen">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" top="20.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
+            <HBox prefHeight="0.0" prefWidth="510.0" />
             <HBox>
                <children>
                   <TableView fx:id="timeTable" editable="true" prefHeight="160.0" prefWidth="469.0">
@@ -107,20 +87,7 @@
                   <Insets />
                </VBox.margin>
             </HBox>
-            <HBox prefWidth="200.0">
-               <children>
-                  <Label prefWidth="230.0" text="Verbleibende Zeit (in Stunden:Minuten)">
-                     <HBox.margin>
-                        <Insets bottom="10.0" top="15.0" />
-                     </HBox.margin>
-                  </Label>
-                  <TextField fx:id="remaingTimeTextField" prefHeight="25.0" prefWidth="226.0">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" top="10.0" />
-                     </HBox.margin>
-                  </TextField>
-               </children>
-            </HBox>
+            <HBox prefWidth="200.0" />
             <HBox prefWidth="200.0">
                <children>
                   <Label prefWidth="230.0" text="Spätester Feierabend">
@@ -142,11 +109,20 @@
       </VBox>
       <VBox prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <PieChart fx:id="charts">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </PieChart>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <PieChart fx:id="charts" minHeight="330.0" prefHeight="285.0" prefWidth="310.0" HBox.hgrow="NEVER">
+                     <HBox.margin>
+                        <Insets bottom="20.0" />
+                     </HBox.margin></PieChart>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label prefWidth="230.0" text="Verbleibende Zeit:" />
+                  <TextField fx:id="remaingTimeTextField" prefHeight="25.0" prefWidth="226.0" />
+               </children>
+            </HBox>
          </children>
          <GridPane.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
