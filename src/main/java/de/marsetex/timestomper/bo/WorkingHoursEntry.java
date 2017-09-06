@@ -3,16 +3,16 @@ package de.marsetex.timestomper.bo;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class WorkingHoursTableEntry {
+public class WorkingHoursEntry {
 
 	private StringProperty day;
 	private StringProperty date;
 	private StringProperty workingHours;
 
-	public WorkingHoursTableEntry(String string, String string2, String string3) {
-		day = new SimpleStringProperty(string);
-		date = new SimpleStringProperty(string2);
-		workingHours = new SimpleStringProperty(string3);
+	public WorkingHoursEntry(String day, String date, String workingHours) {
+		this.day = new SimpleStringProperty(day);
+		this.date = new SimpleStringProperty(date);
+		this.workingHours = new SimpleStringProperty(workingHours);
 	}
 
 	public StringProperty getDay() {
