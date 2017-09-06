@@ -1,20 +1,27 @@
 package de.marsetex.timestomper.gui.fx;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import de.marsetex.timestomper.Calculator;
-import de.marsetex.timestomper.bo.WorkingHoursTableEntry;
+import de.marsetex.timestomper.bo.WorkingHoursEntry;
 import de.marsetex.timestomper.cache.EntityCache;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
-import javafx.scene.control.DatePicker;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -28,34 +35,20 @@ import javafx.scene.control.cell.TextFieldTableCell;
  */
 public class FXController {
 
-	private ObservableList<Data> pieChartData;
+	@FXML
+	private TableView<WorkingHoursEntry> timeTable;
 
 	@FXML
-	private TableView<WorkingHoursTableEntry> timeTable;
+	private TableColumn<WorkingHoursEntry, String> dayColumn;
 
 	@FXML
-	private TableColumn<WorkingHoursTableEntry, String> dayColumn;
+	private TableColumn<WorkingHoursEntry, String> dateColumn;
 
 	@FXML
-	private TableColumn<WorkingHoursTableEntry, String> dateColumn;
-
-	@FXML
-	private TableColumn<WorkingHoursTableEntry, String> timeColumn;
-
-	@FXML
-	private DatePicker datePicker;
-
-	@FXML
-	private TextField workingHoursTextField;
-
-	// @FXML
-	// private Button saveTimeButton;
+	private TableColumn<WorkingHoursEntry, String> timeColumn;
 
 	@FXML
 	private TextField arrivalTimestampTextField;
-
-	// @FXML
-	// private Button calculateButton;
 
 	@FXML
 	private TextField remaingTimeTextField;
@@ -66,13 +59,20 @@ public class FXController {
 	@FXML
 	private PieChart charts;
 
-	private final EntityCache cache = new EntityCache();
+	@FXML
+	private MenuItem menuItemExit;
 
-	Calculator calc = new Calculator();
+	@FXML
+	private MenuItem menuItemAbout;
+
+	private ObservableList<Data> pieChartData;
+
+	private final EntityCache cache = new EntityCache();
+	private final Calculator calc = new Calculator();
 
 	@FXML
 	public void initialize() {
-		pieChartData = FXCollections.observableArrayList(new Data("Arbeitszeit", 152), new Data("Restzeit", 45));
+		pieChartData = FXCollections.observableArrayList(new Data("Arbeitszeit", 0), new Data("Restzeit", 40));
 		charts.setData(pieChartData);
 		charts.setLegendVisible(true);
 
@@ -91,36 +91,53 @@ public class FXController {
 		}
 		timeTable.setItems(cache.getIteams());
 
-		remaingTimeTextField.setText("" + calc.calc2(cache.getIteams()));
+		remaingTimeTextField.setText("" + calc.calculateRemaingWorkingHours(cache.getIteams()));
+
+		menuItemExit.setOnAction(event -> Platform.exit());
+		menuItemAbout.setOnAction(event -> showAboutDialog());
 	}
 
-	public void handleEdit(CellEditEvent<WorkingHoursTableEntry, String> event) {
-		WorkingHoursTableEntry ss = event.getRowValue();
+	private void showAboutDialog() {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("TimeStomper - About");
+		alert.setHeaderText("TimeStomper");
+		alert.setContentText("Developed by: Marcel Gruessinger \nVersion: 1.0.0");
+		alert.showAndWait();
+	}
+
+	public void handleEdit(CellEditEvent<WorkingHoursEntry, String> event) {
+		WorkingHoursEntry ss = event.getRowValue();
 		ss.setWorkingHours(new SimpleStringProperty(event.getNewValue()));
 
-		remaingTimeTextField.setText("" + calc.calc2(event.getTableView().getItems()));
-
-	}
-
-	@FXML
-	private void addPressed() {
+		remaingTimeTextField.setText("" + calc.calculateRemaingWorkingHours(event.getTableView().getItems()));
 		updatePieChart();
-		cache.add(datePicker.getValue(), workingHoursTextField.getText());
-		timeTable.setItems(cache.getIteams());
 	}
 
 	@FXML
 	private void calculatePressed() {
-		Calculator calc = new Calculator();
-		calc.calc();
-		// remaingTimeTextField.setText(String.valueOf(restGanz) + ":" +
-		// String.valueOf(sadma));
-
+		calc.getRemainingWorkingHours();
+		String myTime = arrivalTimestampTextField.getText();
+		SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+		Date d = null;
+		try {
+			d = df.parse(myTime);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(d);
+		String newTime = df.format(calc.calculateEndOfWorkingDay(cal));
+		System.out.println(newTime);
+		endOfWorkDayTextField.setText(newTime);
 	}
 
 	private void updatePieChart() {
 		for (Data data : pieChartData) {
-			data.setPieValue(Math.random() * 100 + 1);
+			if ("Arbeitszeit".equals(data.getName())) {
+				data.setPieValue(40 - calc.getRemainingWorkingHours());
+			} else {
+				data.setPieValue(calc.getRemainingWorkingHours());
+			}
 		}
 	}
 
