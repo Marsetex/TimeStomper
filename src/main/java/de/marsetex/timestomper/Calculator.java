@@ -20,7 +20,9 @@ public class Calculator {
 
 		int add = workingHoursBeforeComma * 60 + sadma;
 
-		if (workingHoursBeforeComma > 5) {
+		if (workingHoursBeforeComma >= 9) {
+			add = add + 45;
+		} else if (workingHoursBeforeComma >= 6) {
 			add = add + 30;
 		}
 
