@@ -22,6 +22,7 @@ import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -60,6 +61,12 @@ public class FXController {
 	private PieChart charts;
 
 	@FXML
+	private RadioMenuItem baseWorkingHours40;
+
+	@FXML
+	private RadioMenuItem baseWorkingHours20;
+
+	@FXML
 	private MenuItem menuItemExit;
 
 	@FXML
@@ -68,7 +75,7 @@ public class FXController {
 	private ObservableList<Data> pieChartData;
 
 	private final EntityCache cache = new EntityCache();
-	private final Calculator calc = new Calculator();
+	private final Calculator calc = new Calculator(40);
 
 	@FXML
 	public void initialize() {
@@ -114,6 +121,17 @@ public class FXController {
 	}
 
 	@FXML
+	private void updateBaseWorkingHours() {
+		if (baseWorkingHours20.isSelected()) {
+			calc.setBaseWorkingHours(20);
+		} else {
+			calc.setBaseWorkingHours(40);
+		}
+		remaingTimeTextField.setText("" + calc.calculateRemaingWorkingHours(cache.getIteams()));
+		updatePieChart();
+	}
+
+	@FXML
 	private void calculatePressed() {
 		calc.getRemainingWorkingHours();
 		String myTime = arrivalTimestampTextField.getText();
@@ -134,9 +152,9 @@ public class FXController {
 	private void updatePieChart() {
 		for (Data data : pieChartData) {
 			if ("Arbeitszeit".equals(data.getName())) {
-				data.setPieValue(40 - calc.getRemainingWorkingHours());
-			} else {
 				data.setPieValue(calc.getRemainingWorkingHours());
+			} else {
+				data.setPieValue(calc.getWorkedWorkingHours());
 			}
 		}
 	}

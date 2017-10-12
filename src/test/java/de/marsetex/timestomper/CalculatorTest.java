@@ -14,7 +14,7 @@ public class CalculatorTest {
 
 	@Test
 	public void testCalculateRemaingWorkingHours() throws Exception {
-		Calculator calc = new Calculator();
+		Calculator calc = new Calculator(40);
 		List<WorkingHoursEntry> list = new ArrayList<>();
 		list.add(new WorkingHoursEntry("Montag", "04.09.2017", "8.00"));
 		double result = calc.calculateRemaingWorkingHours(list);

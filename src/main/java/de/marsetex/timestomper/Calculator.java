@@ -8,9 +8,13 @@ import de.marsetex.timestomper.bo.WorkingHoursEntry;
 
 public class Calculator {
 
-	private static final int TOTAL_WORKING_HOURS = 40;
+	private int TOTAL_WORKING_HOURS;
 
 	private double remainingWorkingHours;
+
+	public Calculator(int hours) {
+		TOTAL_WORKING_HOURS = hours;
+	}
 
 	public Date calculateEndOfWorkingDay(Calendar cal) {
 		int workingHoursBeforeComma = (int) remainingWorkingHours;
@@ -41,6 +45,14 @@ public class Calculator {
 	}
 
 	public double getRemainingWorkingHours() {
+		return TOTAL_WORKING_HOURS - remainingWorkingHours;
+	}
+
+	public double getWorkedWorkingHours() {
 		return remainingWorkingHours;
+	}
+
+	public void setBaseWorkingHours(int hours) {
+		TOTAL_WORKING_HOURS = hours;
 	}
 }
