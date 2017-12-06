@@ -24,9 +24,12 @@ public class Calculator {
 
 		int add = workingHoursBeforeComma * 60 + sadma;
 
-		if (workingHoursBeforeComma >= 9) {
+		if (workingHoursBeforeComma > 10) {
+			add = 10 * 60 + sadma;
 			add = add + 45;
-		} else if (workingHoursBeforeComma >= 6) {
+		} else if (workingHoursBeforeComma > 9) {
+			add = add + 45;
+		} else if (workingHoursBeforeComma > 6) {
 			add = add + 30;
 		}
 
