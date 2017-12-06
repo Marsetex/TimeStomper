@@ -8,9 +8,16 @@ TimeStomper is a tool to manage your working hours.
 
 # Releases
 The following [releases](https://github.com/Marsetex/TimeStomper/releases/) are available for download: 
+* [TimeStomper-1.1.0](https://github.com/Marsetex/TimeStomper/releases/tag/v1.1.0)
 * [TimeStomper-1.0.0](https://github.com/Marsetex/TimeStomper/releases/tag/v1.0.0)
 
 # Changelog
+
+1.1.0
+------
+* Revamped user interface (bootstrap3)
+* Added option for weeks with 20 workings hours
+* Migration to Java 9
 
 1.0.0
 ------
